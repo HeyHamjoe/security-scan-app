@@ -1,17 +1,40 @@
-# Use a lightweight Python image
+# Use a lightweight Python image with Java for OWASP ZAP
 FROM python:3.10-slim
 
-# Set the working directory
+# Install dependencies: Java (OpenJDK 17), curl, jq, and unzip
+RUN apt-get update && apt-get install -y \
+    openjdk-17-jre-headless \
+    curl \
+    jq \
+    unzip
+
+# Dynamically fetch and download the latest ZAP version with verified URL
+RUN DOWNLOAD_URL=$(curl -s https://api.github.com/repos/zaproxy/zaproxy/releases/latest | jq -r '.assets[] | select(.name | test("ZAP_.*\\.zip")) | .browser_download_url') && \
+    echo "Downloading ZAP from: $DOWNLOAD_URL" && \
+    curl -L $DOWNLOAD_URL -o zap.zip && \
+    if ! unzip zap.zip -d /opt/zap; then \
+        echo "Failed to download or unzip ZAP. Check URL or connection." && exit 1; \
+    fi && \
+    rm zap.zip
+
+# Set ZAP home
+ENV ZAP_PATH=/opt/zap
+
+# Set working directory
 WORKDIR /app
 
 # Copy application files
 COPY . /app
 
-# Install dependencies
-RUN pip install -r requirements.txt
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose the port Flask will run on
-EXPOSE 5000
+# Expose ports for Flask and OWASP ZAP
+EXPOSE 5000 8080
 
-# Start the Flask app
-CMD ["python", "app.py"]
+# Copy and set the startup script
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
+# Run the startup script
+CMD ["/start.sh"]
