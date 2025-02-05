@@ -6,15 +6,15 @@
     <title>Security Scan App</title>
 </head>
 <body>
-    <h1>Welcome to the Security Scan App</h1>
-    <form action="/scan" method="POST">
-        <label for="url">Enter the URL to scan:</label><br><br>
-        <input type="text" id="url" name="url" placeholder="http://example.com" required style="width: 300px; padding: 5px;"><br><br>
-        <button type="submit" style="padding: 10px 15px;">Start Scan</button>
+    <h1>What type of scan would you like to perform?</h1>
+
+    <!-- Button to navigate to the OWASP ZAP scan form -->
+    <form action="/zap-scan" method="GET">
+        <button type="submit" style="padding: 15px 30px; font-size: 18px;">OWASP ZAP</button>
     </form>
 
     <hr>
     <h2>View Previous Reports</h2>
-    <p><a href="/report" style="font-size: 18px;">Go to the latest report</a></p>
+    <p><a href="/reports" style="font-size: 18px;">Go to Available Reports</a></p>
 </body>
 </html>
