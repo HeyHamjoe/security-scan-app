@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Scan App</title>
+</head>
+<body>
+    <h1>Welcome to the Security Scan App</h1>
+    <form action="/scan" method="POST">
+        <label for="url">Enter the URL to scan:</label><br><br>
+        <input type="text" id="url" name="url" placeholder="http://example.com" required style="width: 300px; padding: 5px;"><br><br>
+        <button type="submit" style="padding: 10px 15px;">Start Scan</button>
+    </form>
+
+    <hr>
+    <h2>View Previous Reports</h2>
+    <p><a href="/report" style="font-size: 18px;">Go to the latest report</a></p>
+</body>
+</html>
