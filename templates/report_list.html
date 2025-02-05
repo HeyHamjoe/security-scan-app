@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Reports</title>
+</head>
+<body>
+    <h1>Available Reports</h1>
+    <ul>
+        {% for report in reports %}
+        <li>
+            <a href="{{ url_for('view_report', filename=report) }}">{{ report }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <hr>
+    <p><a href="/">Back to Home</a></p>
+</body>
+</html>
